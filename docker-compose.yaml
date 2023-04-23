@@ -1,0 +1,21 @@
+version: '3'
+services:
+  myservice:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "60000:8888"  # port for JupyterLab (or JupyterNotebook)
+      - "2222:22"
+    volumes:
+      - .:/cifar-10-simple-train
+    networks:
+      - mynetwork
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=all
+    tty: true
+    stdin_open: true
+    command: /usr/sbin/sshd -D
+networks:
+  mynetwork:
